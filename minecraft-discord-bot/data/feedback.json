@@ -1,0 +1,102 @@
+{
+    "1541774587459534971": {
+        "ownerId": "1497244527931559956",
+        "ticketName": "🟡-support-baum25252",
+        "claimedById": null,
+        "claimedByTag": "Niemand",
+        "feedbackMessageId": "1541774605079814164",
+        "submitted": true,
+        "createdAt": 1787658111393,
+        "stars": 2,
+        "comment": "tghf",
+        "submittedBy": "1497244527931559956",
+        "submittedAt": 1787658128437
+    },
+    "1541775402391830540": {
+        "ownerId": "1272941271090073612",
+        "ticketName": "🟡-support-iamisntreal",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1541775566515208224",
+        "submitted": false,
+        "createdAt": 1787658340872
+    },
+    "1541782862469275810": {
+        "ownerId": "1497244527931559956",
+        "ticketName": "🟢-technical-baum25252",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1541783058678808586",
+        "submitted": true,
+        "createdAt": 1787660126833,
+        "stars": 5,
+        "comment": "Sehr Befriedigend",
+        "submittedBy": "1497244527931559956",
+        "submittedAt": 1787660141741
+    },
+    "1541785151640572034": {
+        "ownerId": "1536425093100601356",
+        "ticketName": "🟡-support-hamburgstyle",
+        "claimedById": null,
+        "claimedByTag": "Niemand",
+        "feedbackMessageId": "1541785754869440603",
+        "submitted": true,
+        "createdAt": 1787660769713,
+        "stars": 5,
+        "comment": "Kein Kommentar angegeben.",
+        "submittedBy": "1536425093100601356",
+        "submittedAt": 1787660780313
+    },
+    "1541848644037124116": {
+        "ownerId": "1497244527931559956",
+        "ticketName": "🔴-support-baum25252",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1541848770810093648",
+        "submitted": true,
+        "createdAt": 1787675793572,
+        "stars": 5,
+        "comment": "Süper ARDA ZAZIKI",
+        "submittedBy": "1497244527931559956",
+        "submittedAt": 1787675808912
+    },
+    "1541869209762406410": {
+        "ownerId": "1271884748318576778",
+        "ticketName": "🟢-support-naibafchen10",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1541869563384176690",
+        "submitted": true,
+        "createdAt": 1787680751262,
+        "stars": 5,
+        "comment": "Apfel",
+        "submittedBy": "1271884748318576778",
+        "submittedAt": 1787684996669
+    },
+    "1541869137897455686": {
+        "ownerId": "1497244527931559956",
+        "ticketName": "🔴-report-baum25252",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1541869760504139897",
+        "submitted": true,
+        "createdAt": 1787680798262,
+        "stars": 5,
+        "comment": "sdxrfgvsdrfcvfrsdfc",
+        "submittedBy": "1497244527931559956",
+        "submittedAt": 1787680809203
+    },
+    "1542143776238342245": {
+        "ownerId": "1497244527931559956",
+        "ticketName": "🔴-support-baum25252",
+        "claimedById": "1497244527931559956",
+        "claimedByTag": "baum2525_2",
+        "feedbackMessageId": "1542143997374631948",
+        "submitted": true,
+        "createdAt": 1787746181676,
+        "stars": 1,
+        "comment": "Kein Kommentar angegeben.",
+        "submittedBy": "1497244527931559956",
+        "submittedAt": 1787746203347
+    }
+}
