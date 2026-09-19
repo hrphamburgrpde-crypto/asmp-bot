@@ -6,146 +6,37 @@ const {
 
 const dotenv = require('dotenv');
 
-const loadCommands =
-    require('./handlers/commandHandler');
-
-const loadEvents =
-    require('./handlers/eventHandler');
+const loadCommands = require('./handlers/commandHandler');
+const loadEvents = require('./handlers/eventHandler');
 
 const {
-    startMinecraftEventServer
-} = require(
-    './components/minecraft/minecraftEventServer'
-);
-
-
-/*
- * ==========================================
- * ENV LADEN
- * ==========================================
- */
+    startServerStatusUpdater
+} = require('./commands/server-status');
 
 dotenv.config();
 
+const client = new Client({
+    intents: [
+        GatewayIntentBits.Guilds,
+        GatewayIntentBits.GuildMessages,
+        GatewayIntentBits.MessageContent
+    ]
+});
 
-/*
- * ==========================================
- * DISCORD CLIENT
- * ==========================================
- */
+client.commands = new Collection();
 
-const client =
-    new Client({
+loadCommands(client);
+loadEvents(client);
 
-        intents: [
+startServerStatusUpdater(client);
 
-            GatewayIntentBits.Guilds,
+client.once('ready', () => {
+    console.log('──────────────────────────────');
+    console.log(`Bot: ${client.user.tag}`);
+    console.log(`ID:  ${client.user.id}`);
+    console.log(`Guilds: ${client.guilds.cache.size}`);
+    console.log('Status: Online');
+    console.log('──────────────────────────────');
+});
 
-            GatewayIntentBits.GuildMembers,
-
-            GatewayIntentBits.GuildMessages,
-
-            GatewayIntentBits.MessageContent,
-
-            GatewayIntentBits.GuildVoiceStates
-
-        ]
-
-    });
-
-
-/*
- * ==========================================
- * COMMAND COLLECTION
- * ==========================================
- */
-
-client.commands =
-    new Collection();
-
-
-/*
- * ==========================================
- * COMMANDS LADEN
- * ==========================================
- */
-
-loadCommands(
-    client
-);
-
-
-/*
- * ==========================================
- * EVENTS LADEN
- * ==========================================
- */
-
-loadEvents(
-    client
-);
-
-
-/*
- * ==========================================
- * MINECRAFT EVENT SERVER
- * ==========================================
- */
-
-try {
-
-    startMinecraftEventServer(
-        client
-    );
-
-} catch (error) {
-
-    console.error(
-        '[MINECRAFT] Event-Server konnte nicht gestartet werden:',
-        error
-    );
-
-}
-
-
-/*
- * ==========================================
- * DISCORD LOGIN
- * ==========================================
- */
-
-client.login(
-    process.env.DISCORD_TOKEN
-);
-
-
-/*
- * ==========================================
- * FEHLER
- * ==========================================
- */
-
-process.on(
-    'unhandledRejection',
-    error => {
-
-        console.error(
-            '[UNHANDLED REJECTION]',
-            error
-        );
-
-    }
-);
-
-
-process.on(
-    'uncaughtException',
-    error => {
-
-        console.error(
-            '[UNCAUGHT EXCEPTION]',
-            error
-        );
-
-    }
-);
+client.login(process.env.DISCORD_TOKEN);
