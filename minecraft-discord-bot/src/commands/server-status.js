@@ -7,591 +7,367 @@ const {
     SeparatorSpacingSize
 } = require('discord.js');
 
-const {
-    status
-} = require('minecraft-server-util');
-
+const minecraftServerUtil = require('minecraft-server-util');
 const fs = require('fs');
 const path = require('path');
 
+const DATA_DIR = path.join(process.cwd(), 'data');
+const DATA_FILE = path.join(DATA_DIR, 'server-status.json');
 
-// ============================================================
-// KONFIGURATION
-// ============================================================
+const UPDATE_INTERVAL = 60 * 1000;
 
-const SERVER_HOST =
-    process.env.MINECRAFT_SERVER_HOST ||
-    'mc.apfelsmp.de';
-
-const SERVER_PORT =
-    Number(
-        process.env.MINECRAFT_SERVER_PORT ||
-        25565
-    );
-
-const UPDATE_INTERVAL =
-    60 * 1000;
-
-
-// ============================================================
-// DATEI FÜR DIE GESPEICHERTE STATUS-NACHRICHT
-// ============================================================
-
-const dataDirectory =
-    path.join(
-        __dirname,
-        '../../../data'
-    );
-
-const stateFile =
-    path.join(
-        dataDirectory,
-        'server-status.json'
-    );
-
-
-// ============================================================
-// DATEI SICHERSTELLEN
-// ============================================================
+let updaterStarted = false;
 
 function ensureDataDirectory() {
-
-    if (!fs.existsSync(dataDirectory)) {
-
-        fs.mkdirSync(
-            dataDirectory,
-            {
-                recursive: true
-            }
-        );
-
+    if (!fs.existsSync(DATA_DIR)) {
+        fs.mkdirSync(DATA_DIR, {
+            recursive: true
+        });
     }
-
 }
 
-
-// ============================================================
-// STATUS-DATEN LADEN
-// ============================================================
-
-function loadState() {
-
+function loadStatusData() {
     ensureDataDirectory();
 
-    if (!fs.existsSync(stateFile)) {
-
-        return {
-
-            guildId: null,
-
-            channelId: null,
-
-            messageId: null
-
-        };
-
+    if (!fs.existsSync(DATA_FILE)) {
+        return {};
     }
 
-
     try {
-
-        return JSON.parse(
-            fs.readFileSync(
-                stateFile,
-                'utf8'
-            )
+        const raw = fs.readFileSync(
+            DATA_FILE,
+            'utf8'
         );
 
+        return JSON.parse(raw);
     } catch (error) {
-
         console.error(
-            '[SERVER STATUS] Status-Datei konnte nicht gelesen werden:',
+            '[SERVER STATUS] server-status.json konnte nicht gelesen werden:',
             error
         );
 
-        return {
-
-            guildId: null,
-
-            channelId: null,
-
-            messageId: null
-
-        };
-
+        return {};
     }
-
 }
 
-
-// ============================================================
-// STATUS-DATEN SPEICHERN
-// ============================================================
-
-function saveState(state) {
-
+function saveStatusData(data) {
     ensureDataDirectory();
 
     fs.writeFileSync(
-
-        stateFile,
-
-        JSON.stringify(
-            state,
-            null,
-            4
-        )
-
+        DATA_FILE,
+        JSON.stringify(data, null, 4),
+        'utf8'
     );
-
 }
 
+function getServerHost() {
+    return (
+        process.env.MINECRAFT_SERVER_HOST ||
+        'mc.apfelsmp.de'
+    );
+}
 
-// ============================================================
-// MINECRAFT STATUS ABFRAGEN
-// ============================================================
+function getServerPort() {
+    return Number(
+        process.env.MINECRAFT_SERVER_PORT ||
+        25565
+    );
+}
 
 async function getMinecraftStatus() {
+    const host = getServerHost();
+    const port = getServerPort();
 
     try {
-
-        const result =
-            await status(
-
-                SERVER_HOST,
-
-                SERVER_PORT,
-
-                {
-
-                    timeout:
-                        5000
-
-                }
-
-            );
-
-
-        return {
-
-            online: true,
-
-            players:
-                result.players?.online ?? 0,
-
-            maxPlayers:
-                result.players?.max ?? 0,
-
-            version:
-                result.version?.name ||
-                'Unbekannt',
-
-            ping:
-                result.roundTripLatency ?? 0
-
-        };
-
-
-    } catch (error) {
-
-        return {
-
-            online: false,
-
-            players: 0,
-
-            maxPlayers: 0,
-
-            version:
-                'Unbekannt',
-
-            ping: null
-
-        };
-
-    }
-
-}
-
-
-// ============================================================
-// COMPONENTS V2
-// ============================================================
-
-function createServerStatusComponents(
-    server
-) {
-
-    const container =
-        new ContainerBuilder()
-            .setAccentColor(
-
-                server.online
-                    ? 0x57F287
-                    : 0xED4245
-
-            );
-
-
-    const statusText =
-        server.online
-
-            ? '🟢 **Online**'
-
-            : '🔴 **Offline**';
-
-
-    const playerText =
-        server.online
-
-            ? `👥 **Spieler:** ${server.players} / ${server.maxPlayers}`
-
-            : '👥 **Spieler:** —';
-
-
-    const versionText =
-        server.online
-
-            ? `🧱 **Version:** ${server.version}`
-
-            : '🧱 **Version:** —';
-
-
-    const pingText =
-        server.online
-
-            ? `📶 **Ping:** ${server.ping} ms`
-
-            : '📶 **Ping:** —';
-
-
-    const text = [
-
-        '# 🍎 APFELSMP SERVER',
-
-        '',
-
-        statusText,
-
-        '',
-
-        playerText,
-
-        versionText,
-
-        pingText,
-
-        '',
-
-        `🌐 **IP:** \`${SERVER_HOST}\``,
-
-        '',
-
-        '━━━━━━━━━━━━━━━━━━━━',
-
-        '🔄 Aktualisierung alle **60 Sekunden**'
-
-    ].join('\n');
-
-
-    container
-        .addTextDisplayComponents(
-
-            new TextDisplayBuilder()
-                .setContent(text)
-
+        const status = await minecraftServerUtil.status(
+            host,
+            port,
+            {
+                timeout: 5000
+            }
         );
 
+        return {
+            online: true,
+            players: status.players?.online ?? 0,
+            maxPlayers: status.players?.max ?? 0,
+            latency: status.roundTripLatency ?? 0,
+            version:
+                status.version?.name ||
+                'Unbekannt'
+        };
 
-    container
+    } catch (error) {
+        return {
+            online: false,
+            players: 0,
+            maxPlayers: 0,
+            latency: 0,
+            version: 'Offline'
+        };
+    }
+}
+
+async function createServerStatusContainer() {
+    const status = await getMinecraftStatus();
+
+    const host = getServerHost();
+    const port = getServerPort();
+
+    const onlineText = status.online
+        ? '🟢 **Online**'
+        : '🔴 **Offline**';
+
+    const playerText = status.online
+        ? `👥 **Spieler:** ${status.players}/${status.maxPlayers}`
+        : '👥 **Spieler:** —';
+
+    const pingText = status.online
+        ? `📡 **Ping:** ${status.latency} ms`
+        : '📡 **Ping:** —';
+
+    const versionText = status.online
+        ? `🧱 **Version:** ${status.version}`
+        : '🧱 **Version:** —';
+
+    return new ContainerBuilder()
+        .setAccentColor(
+            status.online
+                ? 0x57F287
+                : 0xED4245
+        )
+
+        .addTextDisplayComponents(
+            new TextDisplayBuilder()
+                .setContent(
+                    [
+                        '# 🍎 APFEL SMP — SERVER STATUS',
+                        '',
+                        onlineText,
+                        '',
+                        `🌐 **IP:** \`${host}:${port}\``,
+                        '',
+                        playerText,
+                        pingText,
+                        versionText,
+                        '',
+                        '🔄 **Automatische Aktualisierung:** alle 60 Sekunden'
+                    ].join('\n')
+                )
+        )
+
         .addSeparatorComponents(
-
             new SeparatorBuilder()
                 .setSpacing(
                     SeparatorSpacingSize.Small
                 )
                 .setDivider(true)
+        )
 
-        );
-
-
-    container
         .addTextDisplayComponents(
-
             new TextDisplayBuilder()
                 .setContent(
-                    '🍎 **ApfelSMP** • Minecraft Server'
+                    status.online
+                        ? '✅ Der Minecraft-Server ist erreichbar.'
+                        : '⚠️ Der Minecraft-Server ist aktuell nicht erreichbar.'
                 )
-
         );
-
-
-    return {
-
-        components: [
-
-            container
-
-        ],
-
-        flags:
-            MessageFlags.IsComponentsV2
-
-    };
-
 }
 
-
-// ============================================================
-// GESPEICHERTE NACHRICHT AKTUALISIEREN
-// ============================================================
-
 async function updateServerStatusMessage(
-    client
+    client,
+    guildId,
+    channelId,
+    messageId
 ) {
-
-    const state =
-        loadState();
-
-
-    if (
-        !state.guildId ||
-        !state.channelId ||
-        !state.messageId
-    ) {
-
-        return;
-
-    }
-
-
     try {
-
-        const guild =
-            await client.guilds.fetch(
-                state.guildId
-            );
-
+        const guild = await client.guilds.fetch(
+            guildId
+        );
 
         if (!guild) {
-
-            return;
-
+            return false;
         }
 
+        const channel = await guild.channels.fetch(
+            channelId
+        );
 
-        const channel =
-            await guild.channels.fetch(
-                state.channelId
+        if (!channel || !channel.isTextBased()) {
+            console.error(
+                '[SERVER STATUS] Channel ist ungültig:',
+                channelId
             );
 
-
-        if (
-            !channel ||
-            !channel.isTextBased()
-        ) {
-
-            return;
-
+            return false;
         }
 
-
-        const message =
-            await channel.messages.fetch(
-                state.messageId
-            );
-
+        const message = await channel.messages.fetch(
+            messageId
+        );
 
         if (!message) {
-
-            return;
-
+            return false;
         }
 
+        const container =
+            await createServerStatusContainer();
 
-        const server =
-            await getMinecraftStatus();
-
-
-        await message.edit(
-
-            createServerStatusComponents(
-                server
-            )
-
-        );
-
+        await message.edit({
+            components: [container]
+        });
 
         console.log(
-
-            server.online
-
-                ? `[SERVER STATUS] Aktualisiert: ${server.players}/${server.maxPlayers} Spieler`
-                : '[SERVER STATUS] Server offline'
-
+            `[SERVER STATUS] Aktualisiert: ${guild.name} -> #${channel.name}`
         );
 
+        return true;
 
     } catch (error) {
-
         console.error(
             '[SERVER STATUS] Aktualisierung fehlgeschlagen:',
             error
         );
 
+        return false;
     }
-
 }
 
+async function updateAllServerStatusMessages(client) {
+    const data = loadStatusData();
 
-// ============================================================
-// AUTOMATISCHE AKTUALISIERUNG
-// ============================================================
+    const entries = Object.entries(data);
 
-let updaterStarted = false;
-
-
-function startServerStatusUpdater(
-    client
-) {
-
-    if (updaterStarted) {
-
+    if (entries.length === 0) {
         return;
-
     }
 
+    for (const [
+        guildId,
+        config
+    ] of entries) {
+
+        if (
+            !config ||
+            !config.channelId ||
+            !config.messageId
+        ) {
+            continue;
+        }
+
+        const success =
+            await updateServerStatusMessage(
+                client,
+                guildId,
+                config.channelId,
+                config.messageId
+            );
+
+        if (!success) {
+            console.log(
+                `[SERVER STATUS] Gespeicherte Nachricht nicht mehr erreichbar: ${guildId}`
+            );
+        }
+    }
+}
+
+function startServerStatusUpdater(client) {
+    if (updaterStarted) {
+        return;
+    }
 
     updaterStarted = true;
-
 
     console.log(
         '[SERVER STATUS] Automatische Aktualisierung gestartet.'
     );
 
-
-    const update = async () => {
-
-        await updateServerStatusMessage(
-            client
-        );
-
-    };
-
-
-    // Direkt nach dem Start aktualisieren
-    update();
-
+    // Sofort einmal aktualisieren
+    setTimeout(() => {
+        updateAllServerStatusMessages(client)
+            .catch(error => {
+                console.error(
+                    '[SERVER STATUS] Initiales Update fehlgeschlagen:',
+                    error
+                );
+            });
+    }, 5000);
 
     // Danach alle 60 Sekunden
-    setInterval(
+    setInterval(() => {
 
-        update,
+        updateAllServerStatusMessages(client)
+            .catch(error => {
+                console.error(
+                    '[SERVER STATUS] Automatisches Update fehlgeschlagen:',
+                    error
+                );
+            });
 
-        UPDATE_INTERVAL
-
-    );
-
+    }, UPDATE_INTERVAL);
 }
 
-
-// ============================================================
-// COMMAND
-// ============================================================
-
 module.exports = {
+    data: new SlashCommandBuilder()
+        .setName('server-status')
+        .setDescription(
+            'Zeigt den aktuellen Minecraft Server Status an.'
+        ),
 
-    data:
-
-        new SlashCommandBuilder()
-
-            .setName(
-                'server-status'
-            )
-
-            .setDescription(
-                'Sendet den aktuellen Minecraft-Serverstatus.'
-            ),
-
-
-    async execute(
-        interaction
-    ) {
+    async execute(interaction) {
 
         try {
-
-            // Slash-Command kurz bestätigen,
-            // damit Discord die Interaction nicht ablaufen lässt.
             await interaction.deferReply({
-
-                flags:
-                    MessageFlags.Ephemeral
-
+                flags: MessageFlags.Ephemeral
             });
 
-
-            const server =
-                await getMinecraftStatus();
-
+            const container =
+                await createServerStatusContainer();
 
             const message =
-                await interaction.channel.send(
+                await interaction.channel.send({
+                    components: [container],
+                    flags: MessageFlags.IsComponentsV2
+                });
 
-                    createServerStatusComponents(
-                        server
-                    )
+            const data = loadStatusData();
 
-                );
+            data[interaction.guildId] = {
+                channelId: interaction.channelId,
+                messageId: message.id
+            };
 
-
-            saveState({
-
-                guildId:
-                    interaction.guildId,
-
-                channelId:
-                    interaction.channelId,
-
-                messageId:
-                    message.id
-
-            });
-
+            saveStatusData(data);
 
             await interaction.deleteReply();
 
-
             console.log(
-
-                `[SERVER STATUS] Status-Nachricht erstellt: ${message.id}`
-
+                `[SERVER STATUS] Neue Status-Nachricht erstellt: ${message.id}`
             );
-
 
         } catch (error) {
 
             console.error(
-                '[SERVER STATUS ERROR]',
+                '[SERVER STATUS] Fehler:',
                 error
             );
 
-
             try {
-
-                await interaction.editReply({
-
-                    content:
-                        '❌ Die Server-Status-Nachricht konnte nicht erstellt werden.'
-
-                });
-
+                if (interaction.deferred) {
+                    await interaction.editReply({
+                        content:
+                            '❌ Der Server-Status konnte nicht erstellt werden.'
+                    });
+                } else {
+                    await interaction.reply({
+                        content:
+                            '❌ Der Server-Status konnte nicht erstellt werden.',
+                        flags: MessageFlags.Ephemeral
+                    });
+                }
             } catch {}
-
         }
-
     },
 
-
     startServerStatusUpdater
-
 };
