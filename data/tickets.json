@@ -1,0 +1,18 @@
+{
+    "1541768479236169748": {
+        "ownerId": "1272941271090073612",
+        "type": "support",
+        "priority": "low",
+        "claimedBy": "1497244527931559956",
+        "closed": false,
+        "createdAt": 1787656650845
+    },
+    "1555260953166348319": {
+        "ownerId": "1321459268586704897",
+        "type": "support",
+        "priority": "low",
+        "claimedBy": null,
+        "closed": false,
+        "createdAt": 1790873507115
+    }
+}

@@ -1,0 +1,253 @@
+{
+    "1541821804669042769": {
+        "1497244527931559956": {
+            "stats": {
+                "messages": 262,
+                "voiceMinutes": 132,
+                "countingCorrect": 9,
+                "number67": 10
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T14:40:29.367Z"
+                },
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T14:50:13.553Z"
+                },
+                "messages_50": {
+                    "unlockedAt": "2026-10-08T15:11:55.195Z"
+                },
+                "voice_30m": {
+                    "unlockedAt": "2026-10-08T15:13:01.568Z"
+                },
+                "messages_100": {
+                    "unlockedAt": "2026-10-08T15:36:42.897Z"
+                },
+                "voice_1h": {
+                    "unlockedAt": "2026-10-08T15:44:49.334Z"
+                },
+                "cheesy_michael": {
+                    "unlockedAt": "2026-10-08T16:54:48.093Z"
+                },
+                "goat_67": {
+                    "unlockedAt": "2026-10-08T16:56:58.960Z"
+                }
+            },
+            "settings": {
+                "achievementNotifications": true,
+                "achievementPings": false,
+                "notificationPanelShown": true
+            }
+        },
+        "1271884748318576778": {
+            "stats": {
+                "messages": 440,
+                "voiceMinutes": 133,
+                "countingCorrect": 51,
+                "number67": 1
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T14:41:16.747Z"
+                },
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T14:50:14.591Z"
+                },
+                "voice_30m": {
+                    "unlockedAt": "2026-10-08T15:12:59.561Z"
+                },
+                "messages_50": {
+                    "unlockedAt": "2026-10-08T15:23:51.606Z"
+                },
+                "voice_1h": {
+                    "unlockedAt": "2026-10-08T15:44:50.696Z"
+                },
+                "messages_100": {
+                    "unlockedAt": "2026-10-08T15:55:42.683Z"
+                },
+                "cheesy_michael": {
+                    "unlockedAt": "2026-10-08T16:55:17.833Z"
+                }
+            },
+            "settings": {
+                "achievementNotifications": true,
+                "achievementPings": true,
+                "notificationPanelShown": true
+            }
+        },
+        "1499538587002208316": {
+            "stats": {
+                "messages": 355,
+                "voiceMinutes": 117,
+                "countingCorrect": 39,
+                "number67": 2
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T14:52:46.008Z"
+                },
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T15:07:59.520Z"
+                },
+                "messages_50": {
+                    "unlockedAt": "2026-10-08T15:27:30.353Z"
+                },
+                "voice_30m": {
+                    "unlockedAt": "2026-10-08T15:29:16.434Z"
+                },
+                "messages_100": {
+                    "unlockedAt": "2026-10-08T15:50:06.645Z"
+                },
+                "voice_1h": {
+                    "unlockedAt": "2026-10-08T16:01:46.277Z"
+                },
+                "cheesy_michael": {
+                    "unlockedAt": "2026-10-08T16:54:55.093Z"
+                }
+            },
+            "settings": {
+                "achievementNotifications": true,
+                "achievementPings": true,
+                "notificationPanelShown": true
+            }
+        },
+        "1454964049765859455": {
+            "stats": {
+                "messages": 5,
+                "voiceMinutes": 1
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T14:55:52.648Z"
+                }
+            }
+        },
+        "1497295226350604505": {
+            "stats": {
+                "messages": 143,
+                "voiceMinutes": 30
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T14:58:53.596Z"
+                },
+                "messages_50": {
+                    "unlockedAt": "2026-10-08T15:02:48.532Z"
+                },
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T15:08:00.575Z"
+                },
+                "messages_100": {
+                    "unlockedAt": "2026-10-08T15:15:37.362Z"
+                },
+                "voice_30m": {
+                    "unlockedAt": "2026-10-08T15:30:49.224Z"
+                }
+            }
+        },
+        "1425858679403450520": {
+            "stats": {
+                "messages": 0,
+                "voiceMinutes": 76
+            },
+            "achievements": {
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T15:13:59.585Z"
+                },
+                "voice_30m": {
+                    "unlockedAt": "2026-10-08T15:36:49.261Z"
+                },
+                "voice_1h": {
+                    "unlockedAt": "2026-10-08T16:07:44.790Z"
+                }
+            }
+        },
+        "1272941271090073612": {
+            "stats": {
+                "messages": 20,
+                "voiceMinutes": 23
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T15:10:44.607Z"
+                },
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T15:57:26.192Z"
+                }
+            }
+        },
+        "1551959673543065623": {
+            "stats": {
+                "messages": 1,
+                "voiceMinutes": 27
+            },
+            "achievements": {
+                "voice_10m": {
+                    "unlockedAt": "2026-10-08T15:41:49.313Z"
+                },
+                "welcome": {
+                    "unlockedAt": "2026-10-08T16:03:41.176Z"
+                }
+            }
+        },
+        "1321459268586704897": {
+            "stats": {
+                "messages": 7,
+                "voiceMinutes": 9,
+                "countingCorrect": 1
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T16:47:20.841Z"
+                }
+            }
+        },
+        "1390900892059828286": {
+            "stats": {
+                "messages": 5,
+                "voiceMinutes": 0
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T15:53:10.177Z"
+                }
+            }
+        },
+        "1493998813847748809": {
+            "stats": {
+                "messages": 3,
+                "voiceMinutes": 1,
+                "countingCorrect": 0,
+                "number67": 0
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T16:53:35.051Z"
+                }
+            },
+            "settings": {
+                "achievementNotifications": true,
+                "achievementPings": true,
+                "notificationPanelShown": false
+            }
+        },
+        "1510300401029746859": {
+            "stats": {
+                "messages": 1,
+                "voiceMinutes": 4,
+                "countingCorrect": 0,
+                "number67": 0
+            },
+            "achievements": {
+                "welcome": {
+                    "unlockedAt": "2026-10-08T17:03:15.764Z"
+                }
+            },
+            "settings": {
+                "achievementNotifications": true,
+                "achievementPings": true,
+                "notificationPanelShown": false
+            }
+        }
+    }
+}
